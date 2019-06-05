@@ -1,0 +1,41 @@
+version: "3"
+services:
+  producer:
+    build: 
+      dockerfile: helloworld/src/producer/Dockerfile
+      context: ../
+    ports:
+      - 8000:8000
+    volumes:
+      - ..:/usr/src/app
+    restart: on-failure
+    depends_on:
+      - rabbitmq
+    links: 
+      - rabbitmq
+
+  consumer:
+    build: 
+      dockerfile: helloworld/src/consumer/Dockerfile
+      context: ../
+    ports:
+      - 8001:8001
+    volumes:
+      - ..:/usr/src/app
+    restart: on-failure
+    depends_on:
+      - producer
+      - rabbitmq
+    links: 
+      - rabbitmq
+    
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:15672"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
