@@ -1,3 +1,3 @@
 # rabbitmq
 This project is just a bunch of tutorials for Rabbit MQ learning.
-Fot more information visit https://www.rabbitmq.com/getstarted.html
+For more information visit https://www.rabbitmq.com/getstarted.html
